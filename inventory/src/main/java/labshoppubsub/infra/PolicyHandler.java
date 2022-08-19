@@ -37,6 +37,21 @@ public class PolicyHandler {
         // Sample Logic //
         Inventory.decreaseStock(event);
     }
+
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='Ordecancelled'"
+    )
+    public void wheneverOrdecancelled_Cancelleddel(
+        @Payload Ordecancelled ordecancelled
+    ) {
+        Ordecancelled event = ordecancelled;
+        System.out.println(
+            "\n\n##### listener Cancelleddel : " + ordecancelled + "\n\n"
+        );
+        // Sample Logic //
+
+    }
     // keep
 
 }

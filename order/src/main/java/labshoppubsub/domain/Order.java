@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import labshoppubsub.OrderApplication;
+import labshoppubsub.domain.Ordecancelled;
 import labshoppubsub.domain.OrderPlaced;
 import lombok.Data;
 
@@ -37,6 +38,12 @@ public class Order {
         //    Application.applicationContext.getBean(labshoppubsub.external.InventoryService.class)
         //    .getInventory(/** mapping value needed */);
 
+    }
+
+    @PreRemove
+    public void onPreRemove() {
+        Ordecancelled ordecancelled = new Ordecancelled(this);
+        ordecancelled.publishAfterCommit();
     }
 
     public static OrderRepository repository() {
